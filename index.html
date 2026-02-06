@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Metadata for SEO and Authorship -->
+    <meta name="author" content="Dhruv Prajapati">
     <title>AWS Serverless Order System | Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -12,7 +14,7 @@
         .aws-orange { color: #FF9900; }
         .bg-aws-navy { background-color: #232F3E; }
         .border-aws { border-color: #FF9900; }
-        scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
@@ -26,6 +28,7 @@
                 <a href="#architecture" class="hover:text-orange-400">Architecture</a>
                 <a href="#components" class="hover:text-orange-400">Components</a>
                 <a href="#patterns" class="hover:text-orange-400">Design Patterns</a>
+                <a href="https://www.linkedin.com/in/dhruv-prajapati-profile/" target="_blank" class="bg-orange-600 px-4 py-1 rounded hover:bg-orange-500 transition">LinkedIn</a>
             </div>
         </div>
     </nav>
@@ -37,10 +40,15 @@
             <p class="text-xl text-slate-300 leading-relaxed mb-8">
                 A decoupled, resilient architecture utilizing AWS Lambda, SQS, and DynamoDB to demonstrate high-scale asynchronous fulfillment.
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-center items-center gap-4">
                 <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">Serverless</span>
                 <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">Event-Driven</span>
                 <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">AWS Well-Architected</span>
+            </div>
+            <!-- Added Author Attribution -->
+            <div class="mt-10 pt-8 border-t border-white/10">
+                <p class="text-slate-400 uppercase tracking-widest text-xs mb-2">Developed By</p>
+                <p class="text-xl font-semibold">Dhruv Prajapati</p>
             </div>
         </div>
     </header>
@@ -64,20 +72,25 @@
                     </ul>
                 </div>
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xl font-bold mb-4">Core Objectives</h3>
+                    <h3 class="text-xl font-bold mb-4">Connect with the Author</h3>
+                    <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl mb-6">
+                        <div class="bg-aws-navy text-white h-12 w-12 rounded-full flex items-center justify-center text-xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-800">Dhruv Prajapati</p>
+                            <p class="text-sm text-slate-500">Cloud Architect / Developer</p>
+                        </div>
+                    </div>
                     <div class="space-y-4">
-                        <div class="flex gap-4">
-                            <div class="bg-orange-100 text-orange-600 p-3 rounded-lg h-fit"><i class="fas fa-bolt"></i></div>
-                            <p class="text-sm">Implement <strong>Synchronous vs Asynchronous</strong> flow for optimal user experience.</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="bg-blue-100 text-blue-600 p-3 rounded-lg h-fit"><i class="fas fa-shield-alt"></i></div>
-                            <p class="text-sm">Demonstrate <strong>Idempotency</strong> to prevent duplicate order charges.</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="bg-purple-100 text-purple-600 p-3 rounded-lg h-fit"><i class="fas fa-search-dollar"></i></div>
-                            <p class="text-sm">Maintain <strong>Free-Tier eligibility</strong> while using enterprise-grade services.</p>
-                        </div>
+                        <a href="https://www.linkedin.com/in/dhruv-prajapati-profile/" target="_blank" class="flex items-center gap-4 text-blue-600 hover:text-blue-800 transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                            <span class="text-sm font-medium">View LinkedIn Profile</span>
+                        </a>
+                        <a href="https://github.com/Dhruvpr" target="_blank" class="flex items-center gap-4 text-slate-700 hover:text-slate-900 transition">
+                            <i class="fab fa-github text-xl"></i>
+                            <span class="text-sm font-medium">View Project Repository</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -184,56 +197,6 @@
             </div>
         </section>
 
-        <!-- Non-Functional Section -->
-        <section class="mb-20">
-            <h2 class="text-3xl font-bold mb-10 text-center">Performance & Cost</h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div class="p-6">
-                    <p class="text-4xl font-bold text-orange-500 mb-2"><1s</p>
-                    <p class="text-slate-500 font-medium">Submission Latency</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-4xl font-bold text-orange-500 mb-2">99.9%</p>
-                    <p class="text-slate-500 font-medium">Service SLA</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-4xl font-bold text-orange-500 mb-2">$0.00</p>
-                    <p class="text-slate-500 font-medium">Demo Cost (Free Tier)</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-4xl font-bold text-orange-500 mb-2">∞</p>
-                    <p class="text-slate-500 font-medium">Auto-Scalability</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Future Scope -->
-        <section class="mb-20">
-            <h2 class="text-3xl font-bold mb-8">Limitations & Future Roadmap</h2>
-            <div class="bg-white p-8 rounded-2xl border border-slate-200">
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold uppercase">Current: SES Sandbox</span>
-                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold uppercase">Current: No Auth</span>
-                </div>
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div class="space-y-4">
-                        <p class="font-bold text-slate-800 tracking-wide uppercase text-sm italic underline decoration-orange-500 decoration-2">Phase 2: Reliability</p>
-                        <ul class="space-y-2 text-slate-600 text-sm">
-                            <li>• Add **AWS Step Functions** for multi-step shipping workflows.</li>
-                            <li>• Integrate **Amazon EventBridge** for service fan-out (Inventory vs Billing).</li>
-                        </ul>
-                    </div>
-                    <div class="space-y-4">
-                        <p class="font-bold text-slate-800 tracking-wide uppercase text-sm italic underline decoration-orange-500 decoration-2">Phase 3: User Experience</p>
-                        <ul class="space-y-2 text-slate-600 text-sm">
-                            <li>• **Amazon Cognito** for secure customer login.</li>
-                            <li>• **React Frontend** hosted on S3 and CloudFront.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <!-- Footer -->
@@ -241,16 +204,16 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
                 <p class="text-white font-bold text-lg">Event-Driven Serverless Project</p>
-                <p class="text-sm">Built as a prototype for e-commerce scalability.</p>
+                <p class="text-sm">Built by <strong>Dhruv Prajapati</strong> as a prototype for e-commerce scalability.</p>
             </div>
             <div class="flex space-x-6 text-2xl">
-                <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/Dhruvpr" target="_blank" class="hover:text-white transition" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/dhruv-prajapati-profile/" target="_blank" class="hover:text-white transition" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:[Your Email]" class="hover:text-white transition" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
         <div class="text-center mt-10 text-xs tracking-widest uppercase">
-            &copy; 2025 Serverless Architecture Design | Cloud-First Solutions
+            &copy; 2025 Dhruv Prajapati | Serverless Architecture Design | Cloud-First Solutions
         </div>
     </footer>
 
