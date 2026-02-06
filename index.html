@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Serverless Order System | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'neutral' });</script>
+    <style>
+        .aws-orange { color: #FF9900; }
+        .bg-aws-navy { background-color: #232F3E; }
+        .border-aws { border-color: #FF9900; }
+        scroll-behavior: smooth;
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+    <!-- Navigation -->
+    <nav class="bg-aws-navy text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <span class="text-xl font-bold tracking-tight text-orange-500">AWS <span class="text-white">Serverless Project</span></span>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#overview" class="hover:text-orange-400">Overview</a>
+                <a href="#architecture" class="hover:text-orange-400">Architecture</a>
+                <a href="#components" class="hover:text-orange-400">Components</a>
+                <a href="#patterns" class="hover:text-orange-400">Design Patterns</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-aws-navy text-white py-20 px-6 text-center border-b-4 border-orange-500">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Event-Driven Serverless Order Processing System</h1>
+            <p class="text-xl text-slate-300 leading-relaxed mb-8">
+                A decoupled, resilient architecture utilizing AWS Lambda, SQS, and DynamoDB to demonstrate high-scale asynchronous fulfillment.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">Serverless</span>
+                <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">Event-Driven</span>
+                <span class="bg-white/10 px-4 py-2 rounded-md border border-white/20 text-orange-400 font-mono">AWS Well-Architected</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        
+        <!-- Project Overview -->
+        <section id="overview" class="mb-20">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 flex items-center">
+                        <span class="w-2 h-8 bg-orange-500 mr-4"></span>Abstract
+                    </h2>
+                    <p class="text-lg text-slate-600 leading-relaxed mb-4">
+                        This project demonstrates a modern, fully serverless architecture for processing customer orders in an asynchronous manner. By decoupling the submission from the processing logic, we ensure <strong>fault tolerance, scalability, and cost-efficiency.</strong>
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-slate-700"><i class="fas fa-check text-green-500 mr-3"></i> Decoupling via Amazon SQS</li>
+                        <li class="flex items-center text-slate-700"><i class="fas fa-check text-green-500 mr-3"></i> HTTP 202 "Accepted" Logic</li>
+                        <li class="flex items-center text-slate-700"><i class="fas fa-check text-green-500 mr-3"></i> Dead Letter Queues for Reliability</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Core Objectives</h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="bg-orange-100 text-orange-600 p-3 rounded-lg h-fit"><i class="fas fa-bolt"></i></div>
+                            <p class="text-sm">Implement <strong>Synchronous vs Asynchronous</strong> flow for optimal user experience.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-blue-100 text-blue-600 p-3 rounded-lg h-fit"><i class="fas fa-shield-alt"></i></div>
+                            <p class="text-sm">Demonstrate <strong>Idempotency</strong> to prevent duplicate order charges.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-lg h-fit"><i class="fas fa-search-dollar"></i></div>
+                            <p class="text-sm">Maintain <strong>Free-Tier eligibility</strong> while using enterprise-grade services.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram -->
+        <section id="architecture" class="mb-20 py-12 bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+            <h2 class="text-3xl font-bold text-center mb-10 text-slate-800">System Architecture Diagram</h2>
+            <div class="mermaid flex justify-center py-4">
+                graph TD
+                    A[Client: Postman/Web] -->|POST /orders| B(API Gateway: HTTP API)
+                    B -->|Invoke| C[Lambda: SubmitOrder]
+                    C -->|202 Accepted| A
+                    C -->|Push Message| D[SQS: OrderQueue]
+                    D -->|Trigger Batch| E[Lambda: ProcessOrder]
+                    E -->|PutItem| F[(DynamoDB: Orders)]
+                    E -->|Send Email| G[Amazon SES]
+                    E -.->|Logs| H[CloudWatch]
+                    D -.->|Failure| I[SQS: Dead Letter Queue]
+                    
+                    style B fill:#fff,stroke:#FF9900,stroke-width:2px
+                    style D fill:#fff,stroke:#FF9900,stroke-width:2px
+                    style F fill:#fff,stroke:#FF9900,stroke-width:2px
+                    style E fill:#FF9900,stroke:#232F3E,color:#fff
+            </div>
+            <p class="text-center text-slate-400 text-sm mt-8">Asynchronous "Pull" model shown in the orange path.</p>
+        </section>
+
+        <!-- Components Detail -->
+        <section id="components" class="mb-20">
+            <h2 class="text-3xl font-bold mb-10 text-center text-slate-800">Service Configuration</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- API Gateway -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-purple-500 shadow-sm">
+                    <h4 class="font-bold text-purple-600 mb-2">API Gateway</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">Front-door Entry Point</p>
+                    <p class="text-sm">Configured as an <strong>HTTP API</strong> for lower latency. Direct integration with SubmitOrder Lambda with CORS enabled.</p>
+                </div>
+                <!-- Lambda -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-orange-500 shadow-sm">
+                    <h4 class="font-bold text-orange-600 mb-2">AWS Lambda</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">Compute Logic</p>
+                    <p class="text-sm">Two functions: <strong>Submit</strong> (Enrichment/Validation) and <strong>Process</strong> (Fulfillment/Persistence).</p>
+                </div>
+                <!-- SQS -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-blue-500 shadow-sm">
+                    <h4 class="font-bold text-blue-600 mb-2">Amazon SQS</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">The Decoupler</p>
+                    <p class="text-sm">Standard Queue with a <strong>60s visibility timeout</strong>. Redrive policy connected to a DLQ after 3 failed attempts.</p>
+                </div>
+                <!-- DynamoDB -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-green-500 shadow-sm">
+                    <h4 class="font-bold text-green-600 mb-2">DynamoDB</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">NoSQL Storage</p>
+                    <p class="text-sm">Partition Key: <code>orderId</code>. <strong>On-Demand capacity</strong> to minimize cost while scaling instantly.</p>
+                </div>
+                <!-- CloudWatch -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-teal-500 shadow-sm">
+                    <h4 class="font-bold text-teal-600 mb-2">CloudWatch</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">Observability</p>
+                    <p class="text-sm">Centralized JSON logs. Alarms set for <code>ProcessOrder Errors > 0</code> for proactive notification.</p>
+                </div>
+                <!-- SES -->
+                <div class="bg-white p-6 rounded-xl border-l-4 border-yellow-500 shadow-sm">
+                    <h4 class="font-bold text-yellow-600 mb-2">Amazon SES</h4>
+                    <p class="text-sm text-slate-600 italic mb-3">Notification</p>
+                    <p class="text-sm">Sends transactional order confirmation emails to verified identities in Sandbox mode.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Patterns -->
+        <section id="patterns" class="mb-20 bg-aws-navy text-white p-12 rounded-3xl">
+            <h2 class="text-3xl font-bold mb-10 text-center">Engineering Excellence Patterns</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="flex gap-5">
+                    <i class="fas fa-layer-group text-orange-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold text-lg">Load Leveling</h4>
+                        <p class="text-slate-400 text-sm mt-1 text-balance">SQS buffers messages, allowing the Process Lambda to scale at its own pace without crashing database connections.</p>
+                    </div>
+                </div>
+                <div class="flex gap-5">
+                    <i class="fas fa-redo text-orange-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold text-lg">Idempotent Consumer</h4>
+                        <p class="text-slate-400 text-sm mt-1 text-balance">ProcessOrder uses the unique <code>orderId</code> to ensure that even if a message is retried, no duplicate record is created.</p>
+                    </div>
+                </div>
+                <div class="flex gap-5">
+                    <i class="fas fa-skull-crossbones text-orange-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold text-lg">Poison Message Handling</h4>
+                        <p class="text-slate-400 text-sm mt-1 text-balance">Messages that fail 3 times are moved to a Dead Letter Queue, preventing infinite loops and stuck queues.</p>
+                    </div>
+                </div>
+                <div class="flex gap-5">
+                    <i class="fas fa-user-shield text-orange-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold text-lg">Least-Privilege Security</h4>
+                        <p class="text-slate-400 text-sm mt-1 text-balance">Custom IAM roles for each Lambda function grant only the specific permissions needed (e.g., <code>sqs:SendMessage</code> only).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Non-Functional Section -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold mb-10 text-center">Performance & Cost</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <p class="text-4xl font-bold text-orange-500 mb-2"><1s</p>
+                    <p class="text-slate-500 font-medium">Submission Latency</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-4xl font-bold text-orange-500 mb-2">99.9%</p>
+                    <p class="text-slate-500 font-medium">Service SLA</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-4xl font-bold text-orange-500 mb-2">$0.00</p>
+                    <p class="text-slate-500 font-medium">Demo Cost (Free Tier)</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-4xl font-bold text-orange-500 mb-2">∞</p>
+                    <p class="text-slate-500 font-medium">Auto-Scalability</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Scope -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold mb-8">Limitations & Future Roadmap</h2>
+            <div class="bg-white p-8 rounded-2xl border border-slate-200">
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold uppercase">Current: SES Sandbox</span>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold uppercase">Current: No Auth</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="space-y-4">
+                        <p class="font-bold text-slate-800 tracking-wide uppercase text-sm italic underline decoration-orange-500 decoration-2">Phase 2: Reliability</p>
+                        <ul class="space-y-2 text-slate-600 text-sm">
+                            <li>• Add **AWS Step Functions** for multi-step shipping workflows.</li>
+                            <li>• Integrate **Amazon EventBridge** for service fan-out (Inventory vs Billing).</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="font-bold text-slate-800 tracking-wide uppercase text-sm italic underline decoration-orange-500 decoration-2">Phase 3: User Experience</p>
+                        <ul class="space-y-2 text-slate-600 text-sm">
+                            <li>• **Amazon Cognito** for secure customer login.</li>
+                            <li>• **React Frontend** hosted on S3 and CloudFront.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-aws-navy text-slate-400 py-12 px-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <p class="text-white font-bold text-lg">Event-Driven Serverless Project</p>
+                <p class="text-sm">Built as a prototype for e-commerce scalability.</p>
+            </div>
+            <div class="flex space-x-6 text-2xl">
+                <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-10 text-xs tracking-widest uppercase">
+            &copy; 2025 Serverless Architecture Design | Cloud-First Solutions
+        </div>
+    </footer>
+
+</body>
+</html>
